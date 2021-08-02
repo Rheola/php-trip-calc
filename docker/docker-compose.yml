@@ -2,7 +2,7 @@ version: '3'
 
 services:
   postgresDb:
-    image: postgres:13-alpine
+    image: postgres:alpine
     restart: always
     environment:
       POSTGRES_USER: main
@@ -12,7 +12,7 @@ services:
       - "5432:5432"
     volumes:
       - "./init.sql:/docker-entrypoint-initdb.d/01_init.sql"
-      - "./postgresql:/var/lib/postgresql/data/"
+      - "./postgresql/data:/var/lib/postgresql/data/"
   redis:
     image: redis:5-alpine
     restart: always
