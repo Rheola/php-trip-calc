@@ -33,5 +33,5 @@ cs-check:
 	 $(COMPOSE) run -u $(CURRENT_UID) --entrypoint bash php -c "./vendor/bin/phpcs  -s -p -n"
 
 cs-fix:
-	 $(COMPOSE) run -u $(CURRENT_UID) --entrypoint bash php -c  "php vendor/bin/phpcbf -p -l"
+	 $(COMPOSE) run -u $(CURRENT_UID) --entrypoint bash php -c  "./vendor/bin/phpcbf src/"
 
