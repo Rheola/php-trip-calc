@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service\Trip;
-
 
 use App\Service\Trip\Model\RouteRequest;
 

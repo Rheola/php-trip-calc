@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Client;
-
 
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
