@@ -1,0 +1,90 @@
+version: '3'
+
+services:
+  postgresDb:
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: main
+      POSTGRES_PASSWORD: main
+      POSTGRES_DB: main
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./init.sql:/docker-entrypoint-initdb.d/01_init.sql"
+      - "./postgresql:/var/lib/postgresql/data/"
+  redis:
+    image: redis:5-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./redis:/data"
+  web:
+    image: nginx:alpine
+    container_name: nginxSym1
+    volumes:
+      - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./nginx/log/:/var/log/nginx/"
+      - "./../src/:/var/www/app/"
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_HOST=${NGINX_HOST}
+    restart: always
+    depends_on:
+      - php
+      - postgresDb
+  php:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+#    image: nanoninja/php-fpm:7.4.10
+    container_name: phpSym
+    working_dir: "/var/www/app/"
+    restart: always
+    links:
+      - postgresDb
+      - rabbitmq
+      - redis
+    volumes:
+      - "./../src:/var/www/app"
+  php-workers:
+    container_name: phpmMessenger
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    command: [ 'bash','-c',"/var/www/app/bin/console messenger:consume async" ]
+    working_dir: /var/www/app/
+    volumes:
+      - "./../src/:/var/www/app"
+    links:
+      - postgresDb
+      - rabbitmq
+      - redis
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+#  php-composer:
+#    image: ${COMPOSE_PROJECT_NAME}_php-composer
+##    user: $CURRENT_UID:$CURRENT_GID
+#    dns:
+#      - 172.19.0.33
+#      - 1.1.1.1
+#      - 8.8.8.8
+#    environment:
+#      - CURRENT_UID=${CURRENT_UID}
+#      - COMPOSER_HOME=/tmp/composer
+#    entrypoint: "composer"
+#    command: ""
+#    volumes:
+#      - nfsmount:/var/www
+#      - ~/.composer:/tmp/composer
+#      - ./php-composer/ssh_config:/etc/ssh/ssh_config
+#      - ~/.ssh/:/tmp/.ssh
+#    networks:
+#      - default
+#      - traefik-network
