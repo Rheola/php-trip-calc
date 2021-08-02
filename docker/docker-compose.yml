@@ -1,5 +1,13 @@
 version: '3'
 
+volumes:
+  nfsmount:
+    driver: local
+    driver_opts:
+      type: none
+      device: "${PWD}/$PROJECT_SOURCE_PREFIX/"
+      o: bind
+
 services:
   postgresDb:
     image: postgres:alpine
@@ -26,7 +34,7 @@ services:
     volumes:
       - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
       - "./nginx/log/:/var/log/nginx/"
-      - "./../src/:/var/www/app/"
+      - nfsmount/:/var/www/app/
     ports:
       - "80:80"
     environment:
@@ -48,7 +56,7 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - "./../src:/var/www/app"
+      - nfsmount:/var/www/app
   php-workers:
     container_name: phpmMessenger
     build:
@@ -57,7 +65,7 @@ services:
     command: [ 'bash','-c',"/var/www/app/bin/console messenger:consume async" ]
     working_dir: /var/www/app/
     volumes:
-      - "./../src/:/var/www/app"
+      - nfsmount/:/var/www/app
     links:
       - postgresDb
       - rabbitmq
