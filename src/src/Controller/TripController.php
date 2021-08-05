@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -50,7 +51,7 @@ class TripController extends ApiController
             $result = $handler->routeRequest($requestModel);
 
             return $this->getResponse($result, $responseCode, $responseHeaders);
-        } catch (Exception $fallthrough) {
+        } catch (\Exception $fallthrough) {
             return $this->createErrorResponse(
                 new HttpException(
                     Response::HTTP_INTERNAL_SERVER_ERROR,
