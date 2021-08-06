@@ -24,7 +24,7 @@ class PointType extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        [$longitude, $latitude] = sscanf($value, 'POINT(%f %f)');
+        [$longitude, $latitude] = sscanf($value, 'POINT(%f, %f)');
 
         return new Point($latitude, $longitude);
     }
@@ -32,7 +32,7 @@ class PointType extends Type
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if ($value instanceof Point) {
-            $value = sprintf('POINT(%F %F)', $value->getLongitude(), $value->getLatitude());
+            $value = sprintf('(%F, %F)', $value->getLongitude(), $value->getLatitude());
         }
 
         return $value;
@@ -51,6 +51,6 @@ class PointType extends Type
 
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
     {
-        return sprintf('PointFromText(%s)', $sqlExpr);
+        return sprintf('%s', $sqlExpr);
     }
 }
