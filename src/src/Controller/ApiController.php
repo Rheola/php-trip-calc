@@ -96,7 +96,7 @@ class ApiController extends AbstractController
      */
     protected function serialize($data): string
     {
-        return $this->serializer->serialize($data, 'application/json');
+        return $this->serializer->serialize($data, 'json');
     }
 
     /**
