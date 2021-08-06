@@ -11,9 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=RouteRequestRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class RouteRequest
 {
+
+    const STATUS_NEW = 0;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -135,9 +138,26 @@ class RouteRequest
         return $this;
     }
 
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->created_at = new \DateTimeImmutable();
+    }
+
     public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updated_at;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     * @ORM\PrePersist
+     */
+    public function setUppatedAtValue()
+    {
+        $this->updated_at = new \DateTimeImmutable();
     }
 
     public function setUpdatedAt(DateTimeImmutable $updated_at): self
