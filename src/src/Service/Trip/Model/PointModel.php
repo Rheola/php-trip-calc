@@ -2,7 +2,9 @@
 
 namespace App\Service\Trip\Model;
 
-class Point
+use App\Geo\Point;
+
+class PointModel
 {
     protected float $lat;
     protected float $lon;
@@ -18,7 +20,7 @@ class Point
     /**
      * @param float $lat
      */
-    public function setLat(float $lat): Point
+    public function setLat(float $lat): PointModel
     {
         $this->lat = $lat;
         return $this;
@@ -35,9 +37,14 @@ class Point
     /**
      * @param float $lon
      */
-    public function setLon(float $lon): Point
+    public function setLon(float $lon): PointModel
     {
         $this->lon = $lon;
         return $this;
+    }
+
+    public function toPoint(): Point
+    {
+        return new Point($this->lat, $this->lon);
     }
 }
