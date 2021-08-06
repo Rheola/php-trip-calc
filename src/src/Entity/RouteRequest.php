@@ -17,6 +17,7 @@ class RouteRequest
 {
 
     const STATUS_NEW = 0;
+    const STATUS_PROCESS = 1;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
