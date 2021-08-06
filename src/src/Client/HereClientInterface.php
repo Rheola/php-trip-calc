@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Client;
@@ -12,7 +13,6 @@ interface HereClientInterface
      * @param RouteQueryDTO $query
      * @return RoutesResponseDTO
      */
-    public function sendRouteRequest(RouteQueryDTO $query):RoutesResponseDTO;
+    public function sendRouteRequest(RouteQueryDTO $query): RoutesResponseDTO;
 
-    public function getCalcRouteResult();
 }
