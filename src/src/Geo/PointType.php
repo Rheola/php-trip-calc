@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -24,8 +25,7 @@ class PointType extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        [$longitude, $latitude] = sscanf($value, 'POINT(%f, %f)');
-
+        [$longitude, $latitude] = sscanf($value, '(%f,%f)');
         return new Point($latitude, $longitude);
     }
 
@@ -45,7 +45,7 @@ class PointType extends Type
 
     public function convertToPHPValueSQL($sqlExpr, $platform)
     {
-        return sprintf('AsText(%s)', $sqlExpr);
+        return sprintf('(%s)', $sqlExpr);
     }
 
 
