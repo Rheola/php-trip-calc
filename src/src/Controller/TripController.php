@@ -36,7 +36,7 @@ class TripController extends ApiController
      */
     public function trip(Request $request): Response
     {
-        $requestModel = $this->readModel($request, 'App\Service\Trip\Model\RouteRequest');
+        $requestModel = $this->readModel($request, 'App\Service\Trip\Model\RouteRequestModel');
 
         if ($requestModel instanceof Response) {
             return $requestModel;
@@ -47,15 +47,14 @@ class TripController extends ApiController
 
             // Make the call to the business logic
             $responseCode = 200;
-            $responseHeaders = [];
-            $result = $handler->routeRequest($requestModel);
+             $result = $handler->routeRequest($requestModel);
 
-            return $this->getResponse($result, $responseCode, $responseHeaders);
-        } catch (\Exception $fallthrough) {
+            return $this->getResponse($result, $responseCode, []);
+        } catch (\Exception $exception) {
             return $this->createErrorResponse(
                 new HttpException(
                     Response::HTTP_INTERNAL_SERVER_ERROR,
-                    'An unsuspected error occurred.', $fallthrough
+                    'An unsuspected error occurred.', $exception
                 )
             );
         }
