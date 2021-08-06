@@ -18,6 +18,9 @@ class RouteRequest
 
     const STATUS_NEW = 0;
     const STATUS_PROCESS = 1;
+    const STATUS_DONE = 2;
+    const STATUS_FAIL = 3;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
