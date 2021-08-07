@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Handler;
-
 
 use App\Client\HereClientInterface;
 use App\Entity\RouteRequest;

@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-
 namespace App\Geo;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-
 
 class PointType extends Type
 {

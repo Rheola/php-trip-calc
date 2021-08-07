@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Trip;
@@ -14,12 +15,12 @@ interface TripApiInterface
      * @param RouteRequestModel $request
      * @return RequestResponse
      */
-    public function routeRequest(RouteRequestModel $request):RequestResponse;
+    public function routeRequest(RouteRequestModel $request): RequestResponse;
 
 
     /**
      * @param ResultRequestModel $request
      * @return RouteCalcResult
      */
-    public function getResult(ResultRequestModel $request):RouteCalcResult;
+    public function getResult(ResultRequestModel $request): RouteCalcResult;
 }

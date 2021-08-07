@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Trip\Model;
@@ -46,7 +47,7 @@ class RouteRequestModel
     public function toRouteQueryDTO(): RouteQueryDTO
     {
         $from = $this->getFrom();
-        $to= $this->getTo();
+        $to = $this->getTo();
         $dto = new RouteQueryDTO();
         $dto
             ->setOrigin(sprintf('%d,%d', $from->getLat(), $from->getLon()))
