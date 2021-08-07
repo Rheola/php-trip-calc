@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 namespace App\Service\Here\DTO;
@@ -6,7 +7,7 @@ namespace App\Service\Here\DTO;
 
 class RouteQueryDTO
 {
-    protected $required;
+    protected $origin;
     protected $destination;
     protected $transportMode = 'car';
 
@@ -30,17 +31,18 @@ class RouteQueryDTO
     /**
      * @return mixed
      */
-    public function getRequired()
+    public function getOrigin()
     {
-        return $this->required;
+        return $this->origin;
     }
 
     /**
-     * @param mixed $required
+     * @param $origin
+     * @return $this
      */
-    public function setRequired($required): RouteQueryDTO
+    public function setOrigin($origin): RouteQueryDTO
     {
-        $this->required = $required;
+        $this->origin = $origin;
         return $this;
     }
 
@@ -80,7 +82,7 @@ class RouteQueryDTO
     public function toArray()
     {
         return [
-            'required' => $this->getRequired(),
+            'origin' => $this->getOrigin(),
             'destination' => $this->getDestination(),
             'transportMode' => $this->getTransportMode(),
             'return' => $this->getReturn(),
