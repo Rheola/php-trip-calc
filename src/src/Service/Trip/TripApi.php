@@ -13,6 +13,8 @@ use App\Service\Trip\Model\ResultRequestModel;
 use App\Service\Trip\Model\RouteCalcResult;
 use App\Service\Trip\Model\RouteRequestModel;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class TripApi implements TripApiInterface
@@ -47,33 +49,33 @@ class TripApi implements TripApiInterface
     /**
      * @param RouteRequestModel $request
      * @return RequestResponse
-     * @throws \Exception
      */
     public function routeRequest(RouteRequestModel $request): RequestResponse
     {
-        try {
-            $routeRequest = new RouteRequest();
+        $routeRequest = new RouteRequest();
 
-            $routeRequest->setFromPoint($request->getFrom()->toPoint());
-            $routeRequest->setToPoint($request->getTo()->toPoint());
-            $routeRequest->setStatus(RouteRequest::STATUS_NEW);
+        $routeRequest->setFromPoint($request->getFrom()->toPoint());
+        $routeRequest->setToPoint($request->getTo()->toPoint());
+        $routeRequest->setStatus(RouteRequest::STATUS_NEW);
 
-            $entityManager = $this->entityManager;
+        $entityManager = $this->entityManager;
 
-            $entityManager->persist($routeRequest);
-            $entityManager->flush();
+        $entityManager->persist($routeRequest);
+        $entityManager->flush();
 
-            $this->bus->dispatch(new RouteMessage($routeRequest->getId(), []));
+        $this->bus->dispatch(new RouteMessage($routeRequest->getId(), []));
 
-            $response = new RequestResponse();
-            $response->setId($routeRequest->getId());
+        $response = new RequestResponse();
+        $response->setId($routeRequest->getId());
 
-            return $response;
-        } catch (\Exception $e) {
-            throw  $e;
-        }
+        return $response;
     }
 
+
+    /**
+     * @param ResultRequestModel $request
+     * @return RouteCalcResult
+     */
     public function getResult(ResultRequestModel $request): RouteCalcResult
     {
         $routeRequestEntity = $this->routeRequestRepository->find($request->getId());
@@ -84,6 +86,6 @@ class TripApi implements TripApiInterface
                 ->setDistance($routeRequestEntity->getDistance());
             return $r;
         }
-        // TODO: Implement getResult() method.
+        throw new NotFoundHttpException();
     }
 }
