@@ -8,7 +8,6 @@ class TravelSummaryResponseDTO
 {
     protected int $duration;
     protected int $length;
-    protected int $baseDuration;
 
     /**
      * @return int
@@ -40,21 +39,5 @@ class TravelSummaryResponseDTO
     public function setLength(int $length): void
     {
         $this->length = $length;
-    }
-
-    /**
-     * @return int
-     */
-    public function getBaseDuration(): int
-    {
-        return $this->baseDuration;
-    }
-
-    /**
-     * @param int $baseDuration
-     */
-    public function setBaseDuration(int $baseDuration): void
-    {
-        $this->baseDuration = $baseDuration;
     }
 }
