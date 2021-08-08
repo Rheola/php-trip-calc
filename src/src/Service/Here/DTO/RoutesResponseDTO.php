@@ -27,14 +27,4 @@ class RoutesResponseDTO
         $this->routes = $routes;
     }
 
-    public function getId()
-    {
-        if (count($this->routes) == 0) {
-            return 0;
-        }
-
-        $route = $this->routes[0];
-
-        return $route->getId();
-    }
 }
