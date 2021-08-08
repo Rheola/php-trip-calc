@@ -4,12 +4,20 @@ declare(strict_types=1);
 
 namespace App\Service\Trip\Model;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 use App\Service\Here\DTO\RouteQueryDTO;
 
 class RouteRequestModel
 {
+    /**
+     * @Assert\NotNull()
+     */
     protected PointModel $from;
 
+    /**
+     * @Assert\NotNull()
+     */
     protected PointModel $to;
 
     /**
