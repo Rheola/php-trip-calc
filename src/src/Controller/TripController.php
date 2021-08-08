@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Service\Trip\TripApiInterface;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -37,28 +40,28 @@ class TripController extends ApiController
      */
     public function trip(Request $request): Response
     {
-        $requestModel = $this->readModel($request, 'App\Service\Trip\Model\RouteRequestModel');
+        try {
+            $requestModel = $this->readModel($request, 'App\Service\Trip\Model\RouteRequestModel');
+        } catch (\Exception $e) {
+            return $this->createErrorResponse(
+                new HttpException(
+                    Response::HTTP_INTERNAL_SERVER_ERROR,
+                    'An unsuspected error occurred.', $e
+                )
+            );
+        }
 
         if ($requestModel instanceof Response) {
             return $requestModel;
         }
 
-        try {
-            $handler = $this->api;
+        $handler = $this->api;
 
-            // Make the call to the business logic
-            $responseCode = 200;
-             $result = $handler->routeRequest($requestModel);
+        // Make the call to the business logic
+        $responseCode = 200;
+        $result = $handler->routeRequest($requestModel);
 
-            return $this->getResponse($result, $responseCode, []);
-        } catch (\Exception $exception) {
-            return $this->createErrorResponse(
-                new HttpException(
-                    Response::HTTP_INTERNAL_SERVER_ERROR,
-                    'An unsuspected error occurred.', $exception
-                )
-            );
-        }
+        return $this->getResponse($result, $responseCode, []);
     }
 
     /**
@@ -73,18 +76,16 @@ class TripController extends ApiController
         }
 
         try {
-            $handler = $this->api;
-
-            // Make the call to the business logic
+            $api = $this->api;
             $responseCode = 200;
-            $result = $handler->getResult($requestModel);
+            $result = $api->getResult($requestModel);
 
             return $this->getResponse($result, $responseCode, []);
-        } catch (\Exception $exception) {
+        } catch (NotFoundHttpException  $exception) {
             return $this->createErrorResponse(
                 new HttpException(
-                    Response::HTTP_INTERNAL_SERVER_ERROR,
-                    'An unsuspected error occurred.', $exception
+                    404,
+                    $exception->getMessage()
                 )
             );
         }
