@@ -43,6 +43,12 @@ class ApiController extends AbstractController
             $errorsString = (string)$errors;
             return $this->createBadRequestResponse($errorsString);
         }
+
+        $violations = $this->validator->validate($data);
+        if (count($violations) > 0) {
+            $errorsString = (string)$violations;
+            return $this->createBadRequestResponse($errorsString);
+        }
         return null;
     }
 
@@ -85,7 +91,13 @@ class ApiController extends AbstractController
     protected function deserialize($data, $class)
     {
         $format = 'application/json';
-        return $this->serializer->deserialize($data, $class, 'json');
+
+        try {
+            $res = $this->serializer->deserialize($data, $class, 'json');
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage());
+        }
+        return $res;
     }
 
     /**
@@ -111,6 +123,7 @@ class ApiController extends AbstractController
     public function createErrorResponse(HttpException $exception): Response
     {
         $statusCode = $exception->getStatusCode();
+
         $headers = array_merge($exception->getHeaders(), ['Content-Type' => 'application/json']);
 
         $json = $this->exceptionToArray($exception);
@@ -171,6 +184,6 @@ class ApiController extends AbstractController
      */
     public function createBadRequestResponse($message = 'Bad Request.'): Response
     {
-        return new Response($message, 400);
+        return new Response(json_encode(['error' => $message]), 400);
     }
 }
