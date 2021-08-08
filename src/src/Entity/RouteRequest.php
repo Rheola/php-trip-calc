@@ -135,12 +135,6 @@ class RouteRequest
         return $this->created_at;
     }
 
-    public function setCreatedAt(DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
 
     /**
      * @ORM\PrePersist
@@ -159,15 +153,8 @@ class RouteRequest
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function setUppatedAtValue()
+    public function setUpdatedAtValue()
     {
         $this->updated_at = new \DateTimeImmutable();
-    }
-
-    public function setUpdatedAt(DateTimeImmutable $updated_at): self
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
     }
 }
