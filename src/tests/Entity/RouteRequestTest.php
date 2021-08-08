@@ -19,78 +19,78 @@ class RouteRequestTest extends KernelTestCase
     {
         $point = new Point(55.755818, 37.617705);
 
-        $rr = new RouteRequest();
-        $rr->setFromPoint($point);
-        $this->assertEquals($point, $rr->getFromPoint());
+        $routeRequest = new RouteRequest();
+        $routeRequest->setFromPoint($point);
+        $this->assertEquals($point, $routeRequest->getFromPoint());
     }
 
     public function testSetStatus()
     {
-        $rr = new RouteRequest();
-        $rr->setStatus(RouteRequest::STATUS_FAIL);
-        $this->assertEquals(RouteRequest::STATUS_FAIL, $rr->getStatus());
+        $routeRequest = new RouteRequest();
+        $routeRequest->setStatus(RouteRequest::STATUS_FAIL);
+        $this->assertEquals(RouteRequest::STATUS_FAIL, $routeRequest->getStatus());
     }
 
     public function testSetToPoint()
     {
         $point = new Point(55.755818, 37.617705);
-        $rr = new RouteRequest();
-        $rr->setToPoint($point);
-        $this->assertEquals($point, $rr->getToPoint());
+        $routeRequest = new RouteRequest();
+        $routeRequest->setToPoint($point);
+        $this->assertEquals($point, $routeRequest->getToPoint());
     }
 
     public function testSetDuration()
     {
-        $rr = new RouteRequest();
-        $rr->setDuration(350);
-        $this->assertEquals(350, $rr->getDuration());
+        $routeRequest = new RouteRequest();
+        $routeRequest->setDuration(350);
+        $this->assertEquals(350, $routeRequest->getDuration());
     }
 
     public function testSetDistance()
     {
-        $rr = new RouteRequest();
-        $rr->setDistance(4201);
-        $this->assertEquals(4201, $rr->getDistance());
+        $routeRequest = new RouteRequest();
+        $routeRequest->setDistance(4201);
+        $this->assertEquals(4201, $routeRequest->getDistance());
     }
 
 
     public function testDateTime()
     {
-        $rr = new RouteRequest();
+        $routeRequest = new RouteRequest();
         $fromPoint = new Point(55.755818, 37.617705);
-        $rr->setFromPoint($fromPoint);
-        $rr->setToPoint(new Point(55.751251, 37.628321));
-        $rr->setStatus(RouteRequest::STATUS_FAIL);
+        $routeRequest->setFromPoint($fromPoint);
+        $routeRequest->setToPoint(new Point(55.751251, 37.628321));
+        $routeRequest->setStatus(RouteRequest::STATUS_FAIL);
 
-        $this->entityManager->persist($rr);
+        $this->entityManager->persist($routeRequest);
         $this->entityManager->flush();
 
-        $ar = $this->entityManager->getRepository(RouteRequest::class)
-            ->find($rr->getId());
+        $entity = $this->entityManager->getRepository(RouteRequest::class)
+            ->find($routeRequest->getId());
 
-        $this->assertNotEquals(null, $ar->getUpdatedAt());
-        $this->assertNotEquals(null, $ar->getCreatedAt());
+        $this->assertNotEquals(null, $entity->getUpdatedAt());
+        $this->assertNotEquals(null, $entity->getCreatedAt());
     }
 
 
     public function testSetCreatedAt()
     {
-        $rr = new RouteRequest();
+        $routeRequest = new RouteRequest();
         $fromPoint = new Point(55.755818, 37.617705);
-        $rr->setFromPoint($fromPoint);
-        $rr->setToPoint(new Point(55.751251, 37.628321));
-        $rr->setStatus(RouteRequest::STATUS_FAIL);
+        $routeRequest->setFromPoint($fromPoint);
+        $routeRequest->setToPoint(new Point(55.751251, 37.628321));
+        $routeRequest->setStatus(RouteRequest::STATUS_FAIL);
 
-        $this->entityManager->persist($rr);
+        $this->entityManager->persist($routeRequest);
         $this->entityManager->flush();
 
 
         sleep(2);
-        $this->entityManager->persist($rr);
+        $this->entityManager->persist($routeRequest);
         $this->entityManager->flush();
 
-        $ar = $this->entityManager->getRepository(RouteRequest::class)
-            ->find($rr->getId());
-        $this->assertNotEquals($ar->getUpdatedAt(), $ar->getCreatedAt());
+        $entity = $this->entityManager->getRepository(RouteRequest::class)
+            ->find($routeRequest->getId());
+        $this->assertNotEquals($entity->getUpdatedAt(), $entity->getCreatedAt());
     }
 }
