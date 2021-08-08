@@ -3,9 +3,14 @@
 declare(strict_types=1);
 
 namespace App\Service\Trip\Model;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 class ResultRequestModel
 {
+    /**
+     * @Assert\NotNull()
+     */
     protected $id;
 
     /**
