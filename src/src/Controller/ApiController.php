@@ -90,8 +90,6 @@ class ApiController extends AbstractController
      */
     protected function deserialize($data, $class)
     {
-        $format = 'application/json';
-
         try {
             $res = $this->serializer->deserialize($data, $class, 'json');
         } catch (\Exception $exception) {
@@ -129,7 +127,7 @@ class ApiController extends AbstractController
         $json = $this->exceptionToArray($exception);
         $json['statusCode'] = $statusCode;
 
-        return new Response(json_encode($json, 15, 512), $statusCode, $headers);
+        return new Response(json_encode($json, 15), $statusCode, $headers);
     }
 
     /**
