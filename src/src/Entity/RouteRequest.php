@@ -16,10 +16,10 @@ use Doctrine\ORM\Mapping as ORM;
 class RouteRequest
 {
 
-    const STATUS_NEW = 0;
-    const STATUS_PROCESS = 1;
-    const STATUS_DONE = 2;
-    const STATUS_FAIL = 3;
+    public const STATUS_NEW = 0;
+    public const STATUS_PROCESS = 1;
+    public const STATUS_DONE = 2;
+    public const STATUS_FAIL = 3;
 
     /**
      * @ORM\Id
