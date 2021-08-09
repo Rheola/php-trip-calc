@@ -1,31 +1,30 @@
 <?php
 
-
 namespace App\Tests;
-
 
 trait BootKernel
 {
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         self::bootKernel();
-        if (method_exists($this,'databaseCreate')) {
+        if (method_exists($this, 'databaseCreate')) {
             $this->databaseCreate();
         }
 
-        if (method_exists($this,'startTransaction')) {
+        if (method_exists($this, 'startTransaction')) {
             $this->startTransaction();
         }
 
-        if (method_exists($this,'loadMigrations')) {
+        if (method_exists($this, 'loadMigrations')) {
             $this->loadMigrations();
         }
 
-        if (method_exists($this,'loadFixtures')) {
+        if (method_exists($this, 'loadFixtures')) {
             $this->loadFixtures();
         }
 
-        if (method_exists($this,'loadEntityManager')) {
+        if (method_exists($this, 'loadEntityManager')) {
             $this->loadEntityManager();
         }
 
