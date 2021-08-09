@@ -35,3 +35,6 @@ cs-check:
 cs-fix:
 	 $(COMPOSE) run -u $(CURRENT_UID) --entrypoint bash php -c  "./vendor/bin/phpcbf src/"
 
+test:
+	 $(COMPOSE) run -u $(CURRENT_UID) --entrypoint bash php -c "php /var/www/app/bin/console doctrine:migrations:migrate -n --env=test"
+	 $(COMPOSE) run -u $(CURRENT_UID) --entrypoint bash php -c "php bin/phpunit --coverage-html=public/coverage"
