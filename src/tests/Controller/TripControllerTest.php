@@ -8,7 +8,6 @@ use App\Tests\LoadDoctrine;
 use App\Tests\RefreshDatabaseTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class TripControllerTest extends WebTestCase
 {
