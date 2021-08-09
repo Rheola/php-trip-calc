@@ -86,6 +86,21 @@ class TripController extends ApiController
                     $exception->getMessage()
                 )
             );
+        } catch (HttpException $exception) {
+            if ($exception->getMessage() == 'Fail') {
+                return $this->createErrorResponse(
+                    new HttpException(
+                        200,
+                        $exception->getMessage()
+                    )
+                );
+            }
+            return $this->createErrorResponse(
+                new HttpException(
+                    $exception->getStatusCode(),
+                    $exception->getMessage()
+                )
+            );
         }
     }
 }

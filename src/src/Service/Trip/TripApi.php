@@ -13,6 +13,7 @@ use App\Service\Trip\Model\ResultRequestModel;
 use App\Service\Trip\Model\RouteCalcResult;
 use App\Service\Trip\Model\RouteRequestModel;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -80,10 +81,18 @@ class TripApi implements TripApiInterface
         $routeRequestEntity = $this->routeRequestRepository->find($request->getId());
 
         if ($routeRequestEntity) {
-            $r = new RouteCalcResult();
-            $r->setDuration($routeRequestEntity->getDuration())
-                ->setDistance($routeRequestEntity->getDistance());
-            return $r;
+            switch ($routeRequestEntity->getStatus()) {
+                case RouteRequest::STATUS_DONE:
+                    $r = new RouteCalcResult();
+                    $r->setDuration($routeRequestEntity->getDuration())
+                        ->setDistance($routeRequestEntity->getDistance());
+                    return $r;
+                case  RouteRequest::STATUS_NEW:
+                case  RouteRequest::STATUS_PROCESS:
+                    throw new HttpException(425, 'Too early');
+                case  RouteRequest::STATUS_FAIL:
+                    throw new HttpException(500, 'Fail');
+            }
         }
         throw new NotFoundHttpException();
     }

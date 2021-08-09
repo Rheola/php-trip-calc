@@ -145,8 +145,6 @@ class ApiController extends AbstractController
 
         return [
             'message' => $exception->getMessage(),
-            'type' => get_class($exception),
-            'previous' => $this->exceptionToArray($exception->getPrevious()),
         ];
     }
 
