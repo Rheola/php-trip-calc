@@ -13,7 +13,6 @@ use App\Service\Trip\Model\ResultRequestModel;
 use App\Service\Trip\Model\RouteCalcResult;
 use App\Service\Trip\Model\RouteRequestModel;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
