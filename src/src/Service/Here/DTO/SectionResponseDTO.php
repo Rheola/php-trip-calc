@@ -4,8 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service\Here\DTO;
 
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
 class SectionResponseDTO
 {
+    /**
+     * @var TravelSummaryResponseDTO
+     * @SerializedName("travelSummary")
+     */
     protected TravelSummaryResponseDTO $travelSummary;
 
     /**

@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace App\Service\Here\DTO;
 
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
 class RouteResponseDTO
 {
+    /**
+     * @var string
+     * @SerializedName("id")
+     */
     protected string $id;
 
     /**
      * @var SectionResponseDTO[]
+     * @SerializedName("sections")
      */
     protected array $sections;
 

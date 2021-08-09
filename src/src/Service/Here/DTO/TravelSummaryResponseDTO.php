@@ -4,9 +4,20 @@ declare(strict_types=1);
 
 namespace App\Service\Here\DTO;
 
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
 class TravelSummaryResponseDTO
 {
+    /**
+     * @var int
+     * @SerializedName("duration")
+     */
     protected int $duration;
+
+    /**
+     * @var int
+     * @SerializedName("length")
+     */
     protected int $length;
 
     /**
