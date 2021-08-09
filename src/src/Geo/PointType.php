@@ -9,7 +9,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 class PointType extends Type
 {
-    const POINT = 'point';
+    private const POINT = 'point';
 
     public function getName()
     {
