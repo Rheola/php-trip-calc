@@ -61,12 +61,13 @@ class HereClient implements HereClientInterface
             Request::METHOD_GET,
             $this->apiUrl . '/routes?' . http_build_query($params),
             [
-//                'headers' => $this->getHeaders(),
                 'timeout' => 600,
             ]
         );
 
         if ($response->getStatusCode() == Response::HTTP_OK) {
+            /** @var RoutesResponseDTO $bodyResponseDTO */
+
             $bodyResponseDTO = $this->serializer->deserialize(
                 $response->getContent(),
                 RoutesResponseDTO::class,
@@ -76,6 +77,7 @@ class HereClient implements HereClientInterface
 
             return $bodyResponseDTO;
         }
-        throw new \Exception($response->getStatusCode());
+
+        throw new \Exception( "Unexpected HTTP status:" . $response->getStatusCode(), 500);
     }
 }
